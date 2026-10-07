@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Store &ndash; MUSHOP{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <nav class="breadcrumb">
+        <a href="{% url 'home' %}">{% include 'includes/icon.html' with name='home' %} Home</a>
+        <span class="sep">{% include 'includes/icon.html' with name='chevron-right' %}</span>
+        {% if categories %}
+        <a href="{% url 'store' %}">Store</a>
+        <span class="sep">{% include 'includes/icon.html' with name='chevron-right' %}</span>
+        <span class="current">{{ categories.category_name }}</span>
+        {% else %}
+        <span class="current">Store</span>
+        {% endif %}
+    </nav>
+
+    <div class="shop-layout">
+        <aside class="sidebar-card">
+            <h5 class="sidebar-title">{% include 'includes/icon.html' with name='filter' %} Categories</h5>
+            <nav class="side-menu">
+                <a href="{% url 'store' %}" {% if not categories %}class="active"{% endif %}>{% include 'includes/icon.html' with name='layout-grid' %} All products</a>
+                {% for category in links %}
+                <a href="{{ category.get_url }}" {% if categories.slug == category.slug %}class="active"{% endif %}>{% include 'includes/icon.html' with name='tag' %} {{ category.category_name }}</a>
+                {% endfor %}
+            </nav>
+        </aside>
+
+        <div>
+            <div class="section-head">
+                <div>
+                    <span class="eyebrow">Store</span>
+                    <h2 class="section-title">{% if categories %}{{ categories.category_name }}{% else %}All products{% endif %}</h2>
+                    <p class="section-subtitle">
+                        {{ product_count }} result{{ product_count|pluralize }}
+                        {% if query %} for &ldquo;{{ query }}&rdquo;{% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="chip-row">
+                <a class="chip {% if not sort %}active{% endif %}" href="{{ request.path }}">Featured</a>
+                <a class="chip {% if sort == 'price_asc' %}active{% endif %}" href="{{ request.path }}?sort=price_asc">Price: Low to High</a>
+                <a class="chip {% if sort == 'price_desc' %}active{% endif %}" href="{{ request.path }}?sort=price_desc">Price: High to Low</a>
+            </div>
+
+            <div class="product-grid">
+                {% for product in products %}
+                <article class="product-card">
+                    <div class="product-thumb">
+                        <a href="#"><img src="{{ product.images.url }}" alt="{{ product.product_name }}"></a>
+                        <button class="wishlist-btn" type="button" aria-label="Add to wishlist">{% include 'includes/icon.html' with name='heart' %}</button>
+                    </div>
+                    <div class="product-body">
+                        <a class="product-cat" href="{{ product.category.get_url }}">{{ product.category.category_name }}</a>
+                        <a class="product-name" href="#">{{ product.product_name }}</a>
+                        <div class="product-foot">
+                            <span class="price">&#8366;{{ product.price }}</span>
+                            <button class="add-cart-btn" type="button" aria-label="Add to cart">{% include 'includes/icon.html' with name='plus' %}</button>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <div class="empty-state">
+                    {% include 'includes/icon.html' with name='package' %}
+                    <h4>No products found</h4>
+                    <p>{% if query %}Nothing matches &ldquo;{{ query }}&rdquo;.{% else %}Try another category or check back later.{% endif %}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

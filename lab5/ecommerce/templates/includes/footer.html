@@ -1,0 +1,43 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="logo-main logo-light"><span class="logo-mu">MU</span>SHOP</span>
+                <p>Trusted sellers, wide selection and fast delivery &mdash; all on one platform.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Quick links</h5>
+                <ul>
+                    <li><a href="{% url 'store' %}">{% include 'includes/icon.html' with name='package' %} All products</a></li>
+                    <li><a href="#">{% include 'includes/icon.html' with name='help-circle' %} FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Help</h5>
+                <ul>
+                    <li><a href="#">{% include 'includes/icon.html' with name='shield' %} Privacy policy</a></li>
+                    <li><a href="#">{% include 'includes/icon.html' with name='file-text' %} Terms of use</a></li>
+                    <li><a href="#">{% include 'includes/icon.html' with name='book' %} Company guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Membership</h5>
+                <ul>
+                    <li><a href="#">{% include 'includes/icon.html' with name='user' %} Personal</a></li>
+                    <li><a href="#">{% include 'includes/icon.html' with name='building' %} Organization</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h5>Contact</h5>
+                <ul>
+                    <li>{% include 'includes/icon.html' with name='map-pin' %}<span>Bayanzurkh district, Ulaanbaatar, Mongolia</span></li>
+                    <li><a href="tel:+97611333444">{% include 'includes/icon.html' with name='phone' %} +976 11333444</a></li>
+                    <li><a href="mailto:support@mushop.mn">{% include 'includes/icon.html' with name='mail' %} support@mushop.mn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 MUSHOP &middot; All rights reserved.
+        </div>
+    </div>
+</footer>

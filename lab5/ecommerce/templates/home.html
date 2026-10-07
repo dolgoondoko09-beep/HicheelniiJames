@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MUSHOP &ndash; Online shopping{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+    <img class="hero-img" src="{% static 'images/banners/1.jpg' %}" alt="MUSHOP featured products">
+    <div class="hero-overlay"></div>
+    <div class="container">
+        <div class="hero-content">
+            <span class="glass-chip">{% include 'includes/icon.html' with name='zap' %} Featured collection</span>
+            <h1>Trusted sellers, wide selection, fast delivery.</h1>
+            <p>Shop {{ product_count }} quality products across electronics, fashion, shoes, accessories and sport &mdash; delivered to your door.</p>
+            <div class="hero-actions">
+                <a href="{% url 'store' %}" class="btn btn-primary">Shop now {% include 'includes/icon.html' with name='arrow-right' %}</a>
+                <a href="#" class="btn btn-glass">{% include 'includes/icon.html' with name='percent' %} View deals</a>
+            </div>
+            <div class="hero-chips">
+                <span>{% include 'includes/icon.html' with name='truck' %} Free delivery</span>
+                <span>{% include 'includes/icon.html' with name='rotate-ccw' %} 14-day returns</span>
+                <span>{% include 'includes/icon.html' with name='shield' %} Secure payment</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+
+    <!-- Featured categories -->
+    <section class="section">
+        <div class="section-head">
+            <div>
+                <span class="eyebrow">Categories</span>
+                <h2 class="section-title">Featured categories</h2>
+            </div>
+            <a class="view-all" href="{% url 'store' %}">View all {% include 'includes/icon.html' with name='arrow-right' %}</a>
+        </div>
+        <div class="category-grid">
+            {% for category in shop_categories %}
+            <a class="category-card" href="{{ category.get_url }}">
+                {% if category.cat_image %}<img src="{{ category.cat_image.url }}" alt="{{ category.category_name }}">{% endif %}
+                <span class="cat-chip">{{ category.pcount }} items</span>
+                <span class="cat-info"><h4>{{ category.category_name }}</h4></span>
+                <span class="cat-arrow">{% include 'includes/icon.html' with name='arrow-right' %}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Featured products -->
+    <section class="section">
+        <div class="section-head">
+            <div>
+                <span class="eyebrow">Our picks</span>
+                <h2 class="section-title">Featured products</h2>
+            </div>
+            <a class="view-all" href="{% url 'store' %}">All products {% include 'includes/icon.html' with name='arrow-right' %}</a>
+        </div>
+        <div class="chip-row">
+            <a class="chip active" href="{% url 'store' %}">Featured</a>
+            <a class="chip" href="{% url 'store' %}?sort=price_asc">Price: Low to High</a>
+            <a class="chip" href="{% url 'store' %}?sort=price_desc">Price: High to Low</a>
+        </div>
+        <div class="product-grid cols-4">
+            {% for product in products %}
+            <article class="product-card">
+                <div class="product-thumb">
+                    <a href="#"><img src="{{ product.images.url }}" alt="{{ product.product_name }}"></a>
+                    <button class="wishlist-btn" type="button" aria-label="Add to wishlist">{% include 'includes/icon.html' with name='heart' %}</button>
+                </div>
+                <div class="product-body">
+                    <a class="product-cat" href="{{ product.category.get_url }}">{{ product.category.category_name }}</a>
+                    <a class="product-name" href="#">{{ product.product_name }}</a>
+                    <div class="product-foot">
+                        <span class="price">&#8366;{{ product.price }}</span>
+                        <button class="add-cart-btn" type="button" aria-label="Add to cart">{% include 'includes/icon.html' with name='plus' %}</button>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                {% include 'includes/icon.html' with name='package' %}
+                <h4>No products yet</h4>
+                <p>Run <code>load_data.py</code> to load sample products.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Promo banners -->
+    <section class="promo-grid">
+        <div class="promo-card promo-membership">
+            <span class="promo-badge">Member</span>
+            <span class="glass-chip">Personal</span>
+            <h3>Buyer membership.<br><span class="dim">Exclusive prices just for you.</span></h3>
+            <ul class="promo-list">
+                <li><span class="li-icon">{% include 'includes/icon.html' with name='check' %}</span> Member-only prices</li>
+                <li><span class="li-icon">{% include 'includes/icon.html' with name='check' %}</span> Reward points on every order</li>
+                <li><span class="li-icon">{% include 'includes/icon.html' with name='check' %}</span> Early access to sales</li>
+            </ul>
+            <a href="#" class="btn btn-white">Become a member {% include 'includes/icon.html' with name='arrow-right' %}</a>
+        </div>
+        <div class="promo-card promo-vendor">
+            <span class="promo-badge">Business</span>
+            <span class="glass-chip orange">Organization</span>
+            <h3>More than a store,<br><span class="dim-orange">a full ecosystem.</span></h3>
+            <ul class="promo-list">
+                <li><span class="li-icon">{% include 'includes/icon.html' with name='check' %}</span> Your own online store</li>
+                <li><span class="li-icon">{% include 'includes/icon.html' with name='check' %}</span> Nationwide delivery</li>
+                <li><span class="li-icon">{% include 'includes/icon.html' with name='check' %}</span> CRM &amp; accounting integration</li>
+            </ul>
+            <a href="#" class="btn btn-orange">Open your store {% include 'includes/icon.html' with name='arrow-right' %}</a>
+        </div>
+    </section>
+
+    <!-- Features strip -->
+    <section class="features-strip">
+        <div class="feature-item">
+            <span class="feature-icon">{% include 'includes/icon.html' with name='truck' %}</span>
+            <div><h4>Free delivery</h4><p>Fastest delivery at the best price</p></div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">{% include 'includes/icon.html' with name='credit-card' %}</span>
+            <div><h4>Flexible payment</h4><p>Pay with any card or wallet</p></div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">{% include 'includes/icon.html' with name='rotate-ccw' %}</span>
+            <div><h4>14-day returns</h4><p>Easy exchange within 30 days</p></div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">{% include 'includes/icon.html' with name='headphones' %}</span>
+            <div><h4>Premium support</h4><p>Friendly help whenever you need</p></div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

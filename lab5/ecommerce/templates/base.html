@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MUSHOP &ndash; Online shopping{% endblock %}</title>
+    <link href="{% static 'images/django.ico' %}" rel="shortcut icon" type="image/x-icon">
+    <!-- Montserrat (mushop.mn font). Falls back to Arial when offline. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'includes/header.html' %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'includes/footer.html' %}
+
+    <div class="toast" id="toast">
+        {% include 'includes/icon.html' with name='check' %}
+        <span>Added to cart</span>
+    </div>
+
+    <script>
+    (function () {
+        // Shadow under sticky nav after scrolling
+        var nav = document.querySelector('.site-nav');
+        function onScroll() {
+            if (window.scrollY > 140) { nav.classList.add('scrolled'); }
+            else { nav.classList.remove('scrolled'); }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // Mobile menu toggle
+        var toggle = document.querySelector('.nav-toggle');
+        var mobileMenu = document.getElementById('mobileMenu');
+        if (toggle && mobileMenu) {
+            toggle.addEventListener('click', function () {
+                mobileMenu.classList.toggle('open');
+            });
+        }
+
+        // Categories dropdown toggle (touch / click devices)
+        var catBtn = document.querySelector('.btn-categories');
+        var panel = document.querySelector('.dropdown-panel');
+        if (catBtn && panel) {
+            catBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                panel.classList.toggle('open');
+            });
+            panel.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+            document.addEventListener('click', function () {
+                panel.classList.remove('open');
+            });
+        }
+
+        // Wishlist heart toggle
+        document.querySelectorAll('.wishlist-btn').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                btn.classList.toggle('active');
+            });
+        });
+
+        // Add-to-cart toast
+        var toast = document.getElementById('toast');
+        document.querySelectorAll('.add-cart-btn').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (!toast) return;
+                toast.classList.add('show');
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(function () {
+                    toast.classList.remove('show');
+                }, 1800);
+            });
+        });
+    })();
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
